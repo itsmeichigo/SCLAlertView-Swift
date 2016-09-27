@@ -147,6 +147,7 @@ open class SCLAlertView: UIViewController {
         let kButtonFont: UIFont
         
         // UI Options
+        var showFullCustomIcon: Bool
         var showCloseButton: Bool
         var showCircularIcon: Bool
         var shouldAutoDismiss: Bool // Set this false to 'Disable' Auto hideView when SCLButton is tapped
@@ -157,7 +158,7 @@ open class SCLAlertView: UIViewController {
         // Actions
         var hideWhenBackgroundViewIsTapped: Bool
         
-        public init(kDefaultShadowOpacity: CGFloat = 0.7, kCircleTopPosition: CGFloat = -12.0, kCircleBackgroundTopPosition: CGFloat = -15.0, kCircleHeight: CGFloat = 56.0, kCircleIconHeight: CGFloat = 20.0, kTitleTop:CGFloat = 30.0, kTitleHeight:CGFloat = 25.0, kWindowWidth: CGFloat = 240.0, kWindowHeight: CGFloat = 178.0, kTextHeight: CGFloat = 90.0, kTextFieldHeight: CGFloat = 45.0, kTextViewdHeight: CGFloat = 80.0, kButtonHeight: CGFloat = 45.0, kTitleFont: UIFont = UIFont.systemFont(ofSize: 20), kTextFont: UIFont = UIFont.systemFont(ofSize: 14), kButtonFont: UIFont = UIFont.boldSystemFont(ofSize: 14), showCloseButton: Bool = true, showCircularIcon: Bool = true, shouldAutoDismiss: Bool = true, contentViewCornerRadius: CGFloat = 5.0, fieldCornerRadius: CGFloat = 3.0, buttonCornerRadius: CGFloat = 3.0, hideWhenBackgroundViewIsTapped: Bool = false, contentViewColor: UIColor = UIColorFromRGB(0xFFFFFF), contentViewBorderColor: UIColor = UIColorFromRGB(0xCCCCCC), titleColor: UIColor = UIColorFromRGB(0x4D4D4D)) {
+        public init(kDefaultShadowOpacity: CGFloat = 0.7, kCircleTopPosition: CGFloat = -12.0, kCircleBackgroundTopPosition: CGFloat = -15.0, kCircleHeight: CGFloat = 56.0, kCircleIconHeight: CGFloat = 20.0, kTitleTop:CGFloat = 30.0, kTitleHeight:CGFloat = 25.0, kWindowWidth: CGFloat = 240.0, kWindowHeight: CGFloat = 178.0, kTextHeight: CGFloat = 90.0, kTextFieldHeight: CGFloat = 45.0, kTextViewdHeight: CGFloat = 80.0, kButtonHeight: CGFloat = 45.0, kTitleFont: UIFont = UIFont.systemFont(ofSize: 20), kTextFont: UIFont = UIFont.systemFont(ofSize: 14), kButtonFont: UIFont = UIFont.boldSystemFont(ofSize: 14), showCloseButton: Bool = true, showFullCustomIcon: Bool = false, showCircularIcon: Bool = true, shouldAutoDismiss: Bool = true, contentViewCornerRadius: CGFloat = 5.0, fieldCornerRadius: CGFloat = 3.0, buttonCornerRadius: CGFloat = 3.0, hideWhenBackgroundViewIsTapped: Bool = false, contentViewColor: UIColor = UIColorFromRGB(0xFFFFFF), contentViewBorderColor: UIColor = UIColorFromRGB(0xCCCCCC), titleColor: UIColor = UIColorFromRGB(0x4D4D4D)) {
             
             self.kDefaultShadowOpacity = kDefaultShadowOpacity
             self.kCircleTopPosition = kCircleTopPosition
@@ -180,6 +181,7 @@ open class SCLAlertView: UIViewController {
             self.kTextFont = kTextFont
             self.kButtonFont = kButtonFont
             
+            self.showFullCustomIcon = showFullCustomIcon
             self.showCloseButton = showCloseButton
             self.showCircularIcon = showCircularIcon
             self.shouldAutoDismiss = shouldAutoDismiss
@@ -697,16 +699,21 @@ open class SCLAlertView: UIViewController {
             if let iconTintColor = iconTintColor {
                 circleIconView = UIImageView(image: iconImage!.withRenderingMode(.alwaysTemplate))
                 circleIconView?.tintColor = iconTintColor
-            }
-            else {
+            } else {
                 circleIconView = UIImageView(image: iconImage!)
             }
         }
-        circleView.addSubview(circleIconView!)
+        
         let x = (appearance.kCircleHeight - appearance.kCircleIconHeight) / 2
         circleIconView!.frame = CGRect( x: x, y: x, width: appearance.kCircleIconHeight, height: appearance.kCircleIconHeight)
         circleIconView?.layer.cornerRadius = circleIconView!.bounds.height / 2
         circleIconView?.layer.masksToBounds = true
+        
+        if appearance.showFullCustomIcon == true {
+            circleView = circleIconView!
+        } else {
+            circleView.addSubview(circleIconView!)
+        }
         
         for txt in inputs {
             txt.layer.borderColor = viewColor.cgColor
