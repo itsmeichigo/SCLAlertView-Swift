@@ -704,16 +704,18 @@ open class SCLAlertView: UIViewController {
             }
         }
         
-        let x = (appearance.kCircleHeight - appearance.kCircleIconHeight) / 2
-        circleIconView!.frame = CGRect( x: x, y: x, width: appearance.kCircleIconHeight, height: appearance.kCircleIconHeight)
         circleIconView?.layer.cornerRadius = circleIconView!.bounds.height / 2
         circleIconView?.layer.masksToBounds = true
         
         if appearance.showFullCustomIcon == true {
-            circleView = UIImageView(image: iconImage!)
+            circleView.backgroundColor = .white
+            circleIconView!.frame = CGRect( x: 0, y: 0, width: appearance.kCircleHeight + 10, height: appearance.kCircleHeight + 10)
+            circleIconView!.center = CGPoint(x: appearance.kCircleHeight / 2, y: appearance.kCircleHeight / 2)
         } else {
-            circleView.addSubview(circleIconView!)
+            let x = (appearance.kCircleHeight - appearance.kCircleIconHeight) / 2
+            circleIconView!.frame = CGRect( x: x, y: x, width: appearance.kCircleIconHeight, height: appearance.kCircleIconHeight)
         }
+        circleView.addSubview(circleIconView!)
         
         for txt in inputs {
             txt.layer.borderColor = viewColor.cgColor
