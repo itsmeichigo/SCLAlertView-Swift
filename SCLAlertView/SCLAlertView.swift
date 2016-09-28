@@ -710,7 +710,7 @@ open class SCLAlertView: UIViewController {
         circleIconView?.layer.masksToBounds = true
         
         if appearance.showFullCustomIcon == true {
-            circleView = circleIconView!
+            circleView = UIImageView(image: iconImage!)
         } else {
             circleView.addSubview(circleIconView!)
         }
